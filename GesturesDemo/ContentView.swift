@@ -116,6 +116,14 @@ class SimpleARView: ARView {
             self?.processUISignal($0)
         }.store(in: &subscriptions)
     
+        // Respond to collision events.
+        arView.scene.subscribe(to: CollisionEvents.Began.self) { event in
+
+            print("💥 Collision with \(event.entityA.name) & \(event.entityB.name)")
+
+        }.store(in: &subscriptions)
+
+        
         // Setup tap gesture.
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         arView.addGestureRecognizer(tap)
@@ -138,11 +146,12 @@ class SimpleARView: ARView {
         guard let touchInView = sender?.location(in: self),
               let hitEntity = arView.entity(at: touchInView) else { return }
 
+        print("👇 Did tap \(hitEntity.name)")
+        
         // Respond to tap event.
         hitEntity.scale *= [1.2, 1.2, 1.2]
     }
 
-    
     func setupEntities() {
         collisionBlockA = CollisionBlock(name: "BlockA", size: 0.1, color: UIColor.red)
         arView.installGestures(.all, for: collisionBlockA)
@@ -183,6 +192,8 @@ class CollisionBlock: Entity, HasModel, HasCollision {
             mesh: .generateBox(size: size, cornerRadius: 0.01),
             materials: [SimpleMaterial(color: color, isMetallic: false)]
         )
+        
+        self.name = name
         
         // Set collision shape.
         self.collision = CollisionComponent(shapes: [.generateBox(size: [size, size, size])])
