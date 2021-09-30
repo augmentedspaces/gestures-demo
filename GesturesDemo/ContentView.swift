@@ -167,12 +167,12 @@ class SimpleARView: ARView {
         planeAnchor = AnchorEntity(plane: [.horizontal])
         arView.scene.addAnchor(planeAnchor!)
         
+        collisionBlockA.transform = Transform.identity
         collisionBlockA.position.x = -0.15
-        collisionBlockA.scale = [1,1,1]
         planeAnchor?.addChild(collisionBlockA)
 
+        collisionBlockB.transform = Transform.identity
         collisionBlockB.position.x = 0.15
-        collisionBlockB.scale = [1,1,1]
         planeAnchor?.addChild(collisionBlockB)
     }
 
