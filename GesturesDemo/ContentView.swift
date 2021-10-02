@@ -153,11 +153,17 @@ class SimpleARView: ARView {
     }
 
     func setupEntities() {
+        // Create collision blockA.
         collisionBlockA = CollisionBlock(name: "BlockA", size: 0.1, color: UIColor.red)
-        arView.installGestures(.all, for: collisionBlockA)
 
+        // Add translation, rotation and scale gestures to blockA.
+        arView.installGestures([.translation, .rotation, .scale], for: collisionBlockA)
+
+        // Create collision blockB.
         collisionBlockB = CollisionBlock(name: "BlockB", size: 0.2, color: UIColor.green)
-        arView.installGestures(.all, for: collisionBlockB)
+
+        // Add translation, rotation and scale gestures to blockB.
+        arView.installGestures([.translation, .rotation, .scale], for: collisionBlockB)
     }
     
     func resetPlaneAnchor() {
